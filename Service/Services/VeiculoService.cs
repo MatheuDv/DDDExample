@@ -2,9 +2,6 @@
 using Domain.Enums;
 using Domain.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Service.Services
@@ -16,28 +13,34 @@ namespace Service.Services
             throw new NotImplementedException();
         }
 
-        public Task PostAsync(VeiculoCommand command)
+        public async Task<string> PostAsync(VeiculoCommand command)
         {
             if (command == null)
-                throw new ArgumentNullException();
+            {
+                // Trate a situação em que command é nulo.
+                return "Todos os campos são obrigatórios";
+            }
 
-            // Todo
             // Incluir validação, só podem cadastrar veículos com até 5 anos de uso.
-            //Todo
-            //Incluir somente carros do tipo SUV, Sedan e Hatch. 
+            int anoAtual = DateTime.Now.Year;
+            if ((anoAtual - command.AnoFabricacao) > 5)
+            {
+                return "O veículo não pode ter mais de 5 anos de uso";
+            }
+
+            // Incluir somente carros do tipo SUV, Sedan e Hatch.
             if (command.TipoVeiculo != ETipoVeiculo.SUV
                 && command.TipoVeiculo != ETipoVeiculo.Hatch
-                && command.TipoVeiculo != ETipoVeiculo.Sedan
-            )
-            {
-                Console.WriteLine("Não Cadastrou o Veiculo");
-                throw new ArgumentNullException();
-            }
-            else 
-            {
-                Console.WriteLine("Cadastrou o Veiculo");
-            }
+                && command.TipoVeiculo != ETipoVeiculo.Sedan)
             
+                return "O tipo de veículo não é permitido";
+
+
+            // TODO: Implementar a lógica para cadastrar o veículo.
+
+            // Retorna uma tarefa completada sem um resultado específico.
+            return "Cadastro Realizado com Sucesso";
+        }
 
         public void PostAsync()
         {
