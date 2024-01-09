@@ -35,6 +35,8 @@ namespace Service.Services
             
                 return "O tipo de veículo não é permitido";
 
+            return _veiculoRepository.PostAsync(command);
+
 
             // TODO: Implementar a lógica para cadastrar o veículo.
 
