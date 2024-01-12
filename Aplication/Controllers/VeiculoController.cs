@@ -1,4 +1,5 @@
 ﻿using Domain.Commands;
+using Domain.Entidades;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,12 @@ namespace Aplication.Controllers
         public VeiculoController(IVeiculoService veiculoService)
         {
             _veiculoService = veiculoService;
+        }
+        private readonly IVeiculoRepository _veiculoRepository;
+
+        public VeiculoController(IVeiculoRepository veiculoRepository)
+        {
+            _veiculoRepository = veiculoRepository;
         }
 
         [HttpPost]
@@ -32,6 +39,17 @@ namespace Aplication.Controllers
         public IActionResult PostAsync() 
         {
             return Ok();
+        }
+      
+        [HttpGet("Veiculos alugados")]
+        public async Task<IActionResult> GetVeiculoslugadosAsync()
+        {
+            return Ok(await _veiculoService.GetVeiculosAlugadosAsync());
+        }
+        [HttpGet("Veiculos Disponiveis")]
+        public async Task<IActionResult> GetVeiculosDisponiveisAsync()
+        {
+            return Ok(await _veiculoService.GetVeiculosDisponiveisAsync());
         }
     }
 }
